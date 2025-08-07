@@ -1,11 +1,19 @@
-const threadMap = {};
+const threadMap = new Map();
 
-module.exports = async function trackThread(context, relay) {
-  const key = `${relay.origin}#${relay.originIssue}`;
-  threadMap[key] = {
-    linkedTo: `${relay.target}#${relay.targetIssue}`,
-    status: "active"
-  };
+/**
+ * Stores thread links between origin and target issues/comments
+ */
+function linkThread(originRepo, originIssue, targetRepo, targetIssue) {
+  const key = `${originRepo}#${originIssue}`;
+  threadMap.set(key, {
+    target: `${targetRepo}#${targetIssue}`,
+    timestamp: Date.now()
+  });
+}
 
-  context.log(`Thread linked: ${key} ↔ ${threadMap[key].linkedTo}`);
-};
+function getLinkedThread(originRepo, originIssue) {
+  const key = `${originRepo}#${originIssue}`;
+  return threadMap.get(key);
+}
+
+module.exports = { linkThread, getLinkedThread };
