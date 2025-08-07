@@ -1,0 +1,19 @@
+module.exports = async function relayMessage(context, command, targetRepo) {
+  const issueTitle = `[Relay] ${command.type} from ${context.payload.repository.name}`;
+  const issueBody = `Command: ${command.type}\nOrigin: ${context.payload.repository.full_name}\n\nOriginal Message:\n${context.payload.issue?.body || context.payload.comment?.body}`;
+
+  const [owner, repo] = targetRepo.split("/");
+  const issue = await context.octokit.issues.create({
+    owner,
+    repo,
+    title: issueTitle,
+    body: issueBody
+  });
+
+  return {
+    origin: context.payload.repository.full_name,
+    originIssue: context.payload.issue?.number,
+    target: targetRepo,
+    targetIssue: issue.data.number
+  };
+};
