@@ -13,4 +13,20 @@ RepoRelay is a Probot App that enables intelligent, two-way communication betwee
 2. Add `.dispatcherbot.yml` to each participating repo
 3. Start communicating across your AI portfolio
 
+repo-relay/
+├── .github/
+│   └── workflows/
+│       └── ci.yml
+├── src/
+│   ├── configLoader.js
+│   ├── commandParser.js
+│   ├── relayEngine.js
+│   ├── threadTracker.js
+│   └── index.js
+├── .env.example
+├── .dispatcherbot.yml
+├── README.md
+├── LICENSE
+└── package.json
+
 MIT License. Built by joeeddy.
