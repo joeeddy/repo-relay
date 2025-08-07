@@ -1,32 +1,68 @@
-# 🧠 RepoRelay
+ # 🧵 GitHub Thread Relay & Dashboard
 
-RepoRelay is a Probot App that enables intelligent, two-way communication between repositories in your GitHub account. Designed for AI-driven workflows, it allows agents like Hippocrates-2.1 to issue commands and receive feedback from operator repos like Hummingbot-2.0.
+This app enables seamless cross-repository communication by linking GitHub issues and comments between threads. It also provides a live dashboard to monitor active thread connections.
 
-## Features
-- Two-way issue and comment relaying
-- Configurable repo mappings via `.dispatcherbot.yml`
-- Thread tracking for linked conversations
-- Command parsing for structured AI instructions
+## 🚀 Features
 
-## Setup
-1. Install RepoRelay on your GitHub account
-2. Add `.dispatcherbot.yml` to each participating repo
-3. Start communicating across your AI portfolio
+- 🔗 **Thread Linking**: Connect issues or comments across repositories.
+- 🔁 **Bi-Directional Relay**: Automatically mirror comments between linked threads.
+- 📊 **Live Dashboard**: View active thread links and metadata in real time.
+- ⚡ **Webhook Integration**: Respond to GitHub events instantly.
+- 🧠 **In-Memory Tracking**: Fast and lightweight thread mapping.
 
-repo-relay/
-├── .github/
-│   └── workflows/
-│       └── ci.yml
-├── src/
-│   ├── configLoader.js
-│   ├── commandParser.js
-│   ├── relayEngine.js
-│   ├── threadTracker.js
-│   └── index.js
-├── .env.example
-├── .dispatcherbot.yml
+---
+
+## 🛠️ Setup
+
+### 1. Clone the Repo
+
+```bash
+git clone https://github.com/your-username/thread-relay-app.git
+cd thread-relay-app
+
+ 
+ 
+ 
+ npm install
+
+ 
+ 
+ 
+ GITHUB_TOKEN=your_github_token
+WEBHOOK_SECRET=your_webhook_secret
+PORT=3000
+
+ 
+ 
+ 
+ npm start
+
+ 
+ 
+ 
+ linkThread('origin/repo', 123, 'target/repo', 456);
+
+ 
+ 
+ 
+ http://your-server.com/webhook
+
+ 
+ 
+ http://localhost:3000
+
+
+├── dashboard/
+│   └── server.js         # Dashboard server
+├── relay/
+│   └── relay.js          # Comment relay logic
+├── tracker/
+│   └── threadTracker.js  # Thread linking and retrieval
+├── webhook/
+│   └── webhookHandler.js # GitHub webhook handler
+├── .env
 ├── README.md
-├── LICENSE
 └── package.json
 
-MIT License. Built by joeeddy.
+
+
