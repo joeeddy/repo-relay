@@ -1,0 +1,11 @@
+enabled: true
+role: commander
+targets:
+  - joeeddy/hummingbot-2.0
+  - joeeddy/analytics-bot
+events:
+  - issues
+  - issue_comment
+commands:
+  - deploy_strategy
+  - report_status
