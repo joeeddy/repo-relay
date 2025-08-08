@@ -75,6 +75,7 @@ SLACK_WEBHOOK=https://hooks.slack.com/services/YOUR/SLACK/WEBHOOK
 
 # Bot Configuration
 ALLOWED_USERS=joeeddy
+REPO_RELAY_TOKEN=your_shared_token_here
 THREAD_LINKS_FILE=threadLinks.json
 MAX_RELAY_HISTORY=1000
 ENABLE_SPAM_PROTECTION=true
@@ -151,17 +152,23 @@ npm run dashboard
 
 #### Deploy Strategy
 ```bash
-# Deploy a specific trading strategy
+# Deploy a specific trading strategy (manual command)
 !deploy_strategy strategy:arbitrage target:joeeddy/trading-bot
 
+# Bot/automated command with token
+!deploy_strategy strategy:arbitrage target:joeeddy/trading-bot token:your_token
+
 # With additional parameters
-!deploy_strategy strategy:market_making target:joeeddy/hummingbot-2.0 pair:BTC-USDT
+!deploy_strategy strategy:market_making target:joeeddy/hummingbot-2.0 pair:BTC-USDT token:your_token
 ```
 
 #### Report Status
 ```bash
-# Request status report from target repositories
+# Request status report from target repositories (manual)
 !report_status target:joeeddy/analytics-bot
+
+# Bot command with token
+!report_status target:joeeddy/analytics-bot token:your_token
 ```
 
 ### Command Formats
@@ -177,11 +184,13 @@ The bot supports multiple command formats:
 ```
 command: type
 target: owner/repo
+param1: value1
+token: your_token
 ```
 
 #### Format 3: Slash Commands
 ```bash
-/command target owner/repo param1 value1
+/command target owner/repo param1 value1 token your_token
 ```
 
 ---
@@ -216,6 +225,7 @@ Access the interactive dashboard at `http://localhost:3001` (or your configured 
 | `GITHUB_TOKEN` | GitHub personal access token | Required |
 | `WEBHOOK_SECRET` | GitHub webhook secret | Required |
 | `ALLOWED_USERS` | Comma-separated list of users who can run commands | `joeeddy` |
+| `REPO_RELAY_TOKEN` | Shared token for bot/automated command authentication | Required for bot commands |
 | `SLACK_WEBHOOK` | Slack webhook URL for notifications | Optional |
 | `THREAD_LINKS_FILE` | File to store persistent thread links | `threadLinks.json` |
 | `MAX_RELAY_HISTORY` | Maximum relay history entries to keep | `1000` |
@@ -246,10 +256,40 @@ commands:                 # Allowed commands
 
 ## 🛡️ Security & Permissions
 
+### Enhanced Authorization System
+- **User Authorization**: Only the authorized user (`joeeddy`) can execute commands
+- **Repository Restrictions**: Commands are only accepted from private repositories owned by `joeeddy`
+- **Bot Command Security**: Bot/automated commands require a valid shared token
+- **Token Validation**: All bot commands must include `token:your_token` parameter
+
 ### User Restrictions
-- Only users listed in `ALLOWED_USERS` can execute commands
-- Commands from bot accounts are automatically ignored
-- Relay loops are prevented through signature tracking
+- Only users listed in `ALLOWED_USERS` can execute manual commands
+- Bot accounts require valid tokens for all commands
+- Commands from public repositories are automatically blocked
+- Commands from unauthorized repository owners are rejected
+
+### Token-Based Authentication
+The system uses a shared token (`REPO_RELAY_TOKEN`) for bot/automated commands:
+
+```bash
+# Manual command (no token required for authorized user)
+!link target:joeeddy/hummingbot-2.0
+
+# Bot command (token required)
+!deploy_strategy strategy:arbitrage target:joeeddy/trading-bot token:abc123
+
+# Traditional format with token
+command: deploy_strategy
+target: joeeddy/trading-bot
+strategy: arbitrage
+token: abc123
+```
+
+### Error Handling & Security Responses
+- **Unauthorized Users**: Clear rejection messages for non-authorized users
+- **Public Repositories**: Commands from public repos are blocked with explanatory messages
+- **Invalid Tokens**: Bot commands with missing/invalid tokens are rejected
+- **Repository Access**: Dynamic verification of repository ownership and privacy status
 
 ### Spam Prevention
 - Unique message signatures prevent duplicate relays
