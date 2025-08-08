@@ -25,6 +25,8 @@ function parseCommand(payload) {
     /command:\s*(\w+)\s*[\r\n]+target:\s*(\S+)/i,
     // Format: !command target:repo param1:value1 param2:value2
     /[!\/](\w+)\s+(.*)/i,
+    // Format: !command (no parameters)
+    /[!\/](\w+)$/i,
     // Format: command type target repo
     /command\s+(\w+)\s+target\s+(\S+)/i
   ];
