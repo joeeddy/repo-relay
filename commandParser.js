@@ -1,10 +1,8 @@
-const ALLOWED_USERS = (process.env.ALLOWED_USERS || 'joeeddy').split(',').map(u => u.trim());
-
 /**
  * Parse commands with enhanced parameter support
  * Supports formats like:
  * - command: link target: repo/name
- * - !link target:repo/name param1:value1 param2:value2
+ * - !link target:repo/name param1:value1 param2:value2 token:shared_token
  * - /command target repo/name param1 value1
  */
 function parseCommand(payload) {
@@ -12,12 +10,6 @@ function parseCommand(payload) {
   const sender = payload.issue?.user?.login || payload.comment?.user?.login || payload.sender?.login;
   
   if (!body || !sender) return null;
-  
-  // Check user permissions
-  if (!ALLOWED_USERS.includes(sender)) {
-    console.log(`Command rejected: User ${sender} not in allowed list: ${ALLOWED_USERS.join(', ')}`);
-    return null;
-  }
   
   // Support multiple command formats
   const patterns = [
@@ -30,6 +22,40 @@ function parseCommand(payload) {
     // Format: command type target repo
     /command\s+(\w+)\s+target\s+(\S+)/i
   ];
+  
+  // Also check for traditional format with multiple lines
+  const traditionalPattern = /command:\s*(\w+)[\r\n]+([\s\S]*)/i;
+  const traditionalMatch = body.match(traditionalPattern);
+  
+  if (traditionalMatch) {
+    const command = {
+      type: traditionalMatch[1].toLowerCase(),
+      sender: sender,
+      timestamp: Date.now(),
+      params: {}
+    };
+    
+    // Parse each line for key: value pairs
+    const lines = traditionalMatch[2].split(/[\r\n]+/);
+    for (const line of lines) {
+      const lineMatch = line.match(/(\w+):\s*(.+)/);
+      if (lineMatch) {
+        const key = lineMatch[1].trim();
+        const value = lineMatch[2].trim();
+        command.params[key] = value;
+        
+        // Set target if it's a target parameter
+        if (key === 'target') {
+          command.target = value;
+        }
+      }
+    }
+    
+    // Validate required fields
+    if (command.type && (command.target || isNonTargetCommand(command.type))) {
+      return command;
+    }
+  }
   
   for (const pattern of patterns) {
     const match = body.match(pattern);
@@ -123,4 +149,4 @@ function validateCommand(command) {
   return { valid: true };
 }
 
-module.exports = { parseCommand, validateCommand, ALLOWED_USERS };
+module.exports = { parseCommand, validateCommand };
