@@ -1,6 +1,7 @@
 const { Probot } = require("probot");
 const loadConfig = require("./configLoader");
 const { parseCommand, validateCommand } = require("./commandParser");
+const { validateCommandAuthorization } = require("./authorizationValidator");
 const relayMessage = require("./relayEngine");
 const { linkThread, getLinkedThread, unlinkThread, cleanupOldLinks } = require("./threadTracker");
 const { handleError, logEvent } = require("./notifier");
@@ -28,7 +29,7 @@ module.exports = (app) => {
         return;
       }
       
-      // Validate command
+      // Validate command syntax
       const validation = validateCommand(command);
       if (!validation.valid) {
         await context.octokit.issues.createComment({
@@ -39,8 +40,22 @@ module.exports = (app) => {
         });
         return;
       }
+
+      // Validate authorization (user, repository, and token requirements)
+      const authResult = await validateCommandAuthorization(context, command);
+      if (!authResult.authorized) {
+        await context.octokit.issues.createComment({
+          owner: context.payload.repository.owner.login,
+          repo: context.payload.repository.name,
+          issue_number: context.payload.issue?.number || context.payload.number,
+          body: authResult.message
+        });
+        
+        await logEvent('error', `Authorization failed: ${authResult.reason} for user ${command.sender} in ${context.payload.repository.full_name}`);
+        return;
+      }
       
-      console.log(`Processing command: ${command.type} from ${command.sender}`);
+      console.log(`Processing authorized command: ${command.type} from ${command.sender} (bot: ${authResult.isBot}, token: ${authResult.hasValidToken})`);
       
       // Handle different command types
       switch (command.type) {
@@ -201,10 +216,16 @@ command: type
 target: owner/repo
 \`\`\`
 
+**Security Notes:**
+- Commands are only accepted from authorized private repositories
+- Bot/automated commands require a valid token parameter: \`token:your_token\`
+- Commands from public repositories are blocked
+
 **Examples:**
 \`\`\`
 !link target:joeeddy/hummingbot-2.0
 !deploy_strategy strategy:arbitrage target:joeeddy/trading-bot
+!deploy_strategy strategy:arbitrage target:joeeddy/trading-bot token:your_token
 \`\`\`
 
 📊 [View Dashboard](${process.env.DASHBOARD_URL || 'http://localhost:3001'})
