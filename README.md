@@ -216,6 +216,127 @@ Access the interactive dashboard at `http://localhost:3001` (or your configured 
 
 ---
 
+## 🚀 Minimal Setup for Multi-Environment Communication
+
+This section provides a streamlined setup process for enabling repo-relay communication between two environments, such as Hippocrates-2.1 and Hippocrates-1.0.
+
+### Prerequisites
+
+#### 1. Install Node.js
+Ensure Node.js (version 14 or higher) is installed on your system:
+```bash
+# Check if Node.js is installed
+node --version
+
+# If not installed, download from https://nodejs.org/ or use a package manager:
+# On Ubuntu/Debian:
+sudo apt update && sudo apt install nodejs npm
+
+# On macOS with Homebrew:
+brew install node
+
+# On Windows, download from https://nodejs.org/
+```
+
+#### 2. Install @joeeddy/repo-relay
+Install the repo-relay package globally via npm:
+```bash
+npm install -g @joeeddy/repo-relay
+```
+
+#### 3. Set Up Git Authentication
+Ensure Git is configured with proper authentication for accessing your repositories:
+
+```bash
+# Configure Git with your credentials
+git config --global user.name "Your Name"
+git config --global user.email "your.email@example.com"
+
+# Set up authentication (choose one method):
+
+# Option A: Personal Access Token (recommended)
+# Create a Personal Access Token at: https://github.com/settings/tokens
+# Then configure Git to use it:
+git config --global credential.helper store
+# On next git operation, enter your username and the token as password
+
+# Option B: SSH Keys (alternative)
+# Generate SSH key pair:
+ssh-keygen -t ed25519 -C "your.email@example.com"
+# Add public key to GitHub: https://github.com/settings/ssh/new
+```
+
+### Configuration
+
+#### 4. Create Configuration File
+Create a `repo-relay.config.json` file in your project directory. Use the sample configuration provided in this repository as a starting point:
+
+```bash
+# Copy the sample configuration
+cp repo-relay.config.json.sample repo-relay.config.json
+
+# Edit the configuration file with your environment details
+nano repo-relay.config.json  # or use your preferred editor
+```
+
+**Key Configuration Areas to Update:**
+- Replace `"your-org"` with your actual GitHub organization/username
+- Update repository names from `"hippocrates-2.1"` and `"hippocrates-1.0"` to your actual repo names
+- Set your webhook URLs and secrets
+- Configure GitHub tokens and app credentials
+- Adjust allowed users and commands as needed
+
+#### 5. Configure Environment Variables
+Set up the required environment variables:
+
+```bash
+# Create environment file
+touch .env
+
+# Add required variables (replace with your actual values):
+echo "GITHUB_TOKEN=your_github_personal_access_token_here" >> .env
+echo "REPO_RELAY_TOKEN=your_shared_token_here" >> .env
+echo "PORT=3000" >> .env
+```
+
+### Running repo-relay
+
+#### 6. Start the Relay Service
+Once configured, start the repo-relay service:
+
+```bash
+# Start the main relay service
+repo-relay start
+
+# Or if running from source:
+npm start
+```
+
+The service will:
+- Listen for GitHub webhook events
+- Process cross-repository communication commands
+- Maintain persistent thread links between environments
+- Provide real-time relay of comments and updates
+
+#### 7. Verify Setup
+Test the connection between your environments:
+
+1. Create an issue in your Hippocrates-2.1 repository
+2. Use the `!link target:owner/hippocrates-1.0` command
+3. Add a comment to verify bi-directional communication
+4. Check the dashboard at `http://localhost:3001` for monitoring
+
+### Troubleshooting
+
+- **Authentication Issues**: Verify your GitHub token has the necessary permissions (repo, issues, comments)
+- **Webhook Issues**: Ensure your webhook URL is accessible and the secret matches your configuration
+- **Configuration Errors**: Check the `repo-relay.config.json` syntax and validate all required fields
+- **Network Issues**: Verify firewall settings allow incoming webhook requests
+
+For detailed configuration options and advanced features, see the full setup section below.
+
+---
+
 ## 🔧 Configuration
 
 ### Environment Variables

@@ -1,0 +1,107 @@
+{
+  "environments": {
+    "hippocrates-2.1": {
+      "name": "Hippocrates-2.1",
+      "repository": {
+        "owner": "your-org",
+        "name": "hippocrates-2.1",
+        "branch": "main"
+      },
+      "webhook": {
+        "url": "https://your-domain.com/webhook/hippocrates-2-1",
+        "secret": "your-webhook-secret-hippocrates-2-1"
+      },
+      "github": {
+        "token": "${GITHUB_TOKEN_HIPPOCRATES_2_1}",
+        "app_id": "your-github-app-id",
+        "private_key_path": "path/to/hippocrates-2-1-private-key.pem"
+      },
+      "relay": {
+        "enabled": true,
+        "role": "commander",
+        "allowed_commands": [
+          "link",
+          "unlink",
+          "status",
+          "deploy_strategy",
+          "report_status"
+        ],
+        "targets": [
+          "your-org/hippocrates-1.0"
+        ]
+      }
+    },
+    "hippocrates-1.0": {
+      "name": "Hippocrates-1.0",
+      "repository": {
+        "owner": "your-org",
+        "name": "hippocrates-1.0",
+        "branch": "main"
+      },
+      "webhook": {
+        "url": "https://your-domain.com/webhook/hippocrates-1-0",
+        "secret": "your-webhook-secret-hippocrates-1-0"
+      },
+      "github": {
+        "token": "${GITHUB_TOKEN_HIPPOCRATES_1_0}",
+        "app_id": "your-github-app-id",
+        "private_key_path": "path/to/hippocrates-1-0-private-key.pem"
+      },
+      "relay": {
+        "enabled": true,
+        "role": "relay",
+        "allowed_commands": [
+          "link",
+          "unlink",
+          "status",
+          "acknowledge"
+        ],
+        "targets": [
+          "your-org/hippocrates-2.1"
+        ]
+      }
+    }
+  },
+  "global": {
+    "server": {
+      "port": 3000,
+      "dashboard_port": 3001,
+      "host": "0.0.0.0"
+    },
+    "authentication": {
+      "shared_token": "${REPO_RELAY_TOKEN}",
+      "allowed_users": [
+        "your-github-username"
+      ]
+    },
+    "features": {
+      "spam_prevention": true,
+      "thread_persistence": true,
+      "dashboard_enabled": true,
+      "notifications_enabled": true
+    },
+    "storage": {
+      "thread_links_file": "threadLinks.json",
+      "max_relay_history": 1000,
+      "cleanup_interval_hours": 24
+    },
+    "notifications": {
+      "slack": {
+        "webhook_url": "${SLACK_WEBHOOK_URL}",
+        "channel": "#repo-relay-alerts"
+      },
+      "github": {
+        "error_labels": ["relay-error", "needs-attention"],
+        "auto_close_resolved": true
+      }
+    },
+    "security": {
+      "require_private_repos": true,
+      "validate_repository_ownership": true,
+      "rate_limit": {
+        "max_requests_per_minute": 60,
+        "max_commands_per_hour": 100
+      }
+    }
+  }
+}
