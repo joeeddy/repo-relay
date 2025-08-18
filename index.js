@@ -223,9 +223,9 @@ target: owner/repo
 
 **Examples:**
 \`\`\`
-!link target:joeeddy/hummingbot-2.0
-!deploy_strategy strategy:arbitrage target:joeeddy/trading-bot
-!deploy_strategy strategy:arbitrage target:joeeddy/trading-bot token:your_token
+!link target:your-org/your-target-repo
+!deploy_strategy strategy:arbitrage target:your-org/your-trading-repo
+!deploy_strategy strategy:arbitrage target:your-org/your-trading-repo token:your_token
 \`\`\`
 
 📊 [View Dashboard](${process.env.DASHBOARD_URL || 'http://localhost:3001'})

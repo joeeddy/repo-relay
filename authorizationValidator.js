@@ -1,6 +1,6 @@
 const { isBotSender } = require("./spamPrevention");
 
-const AUTHORIZED_USER = 'joeeddy';
+const AUTHORIZED_USER = process.env.AUTHORIZED_USER || 'your-username';
 
 /**
  * Check if a repository is private and owned by the authorized user
