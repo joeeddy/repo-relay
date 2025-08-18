@@ -38,7 +38,7 @@ This app enables seamless cross-repository communication by linking GitHub issue
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/joeeddy/repo-relay.git
+git clone https://github.com/your-username/repo-relay.git
 cd repo-relay
 ```
 
@@ -74,7 +74,7 @@ NODE_ENV=development
 SLACK_WEBHOOK=https://hooks.slack.com/services/YOUR/SLACK/WEBHOOK
 
 # Bot Configuration
-ALLOWED_USERS=joeeddy
+ALLOWED_USERS=your-username
 REPO_RELAY_TOKEN=your_shared_token_here
 THREAD_LINKS_FILE=threadLinks.json
 MAX_RELAY_HISTORY=1000
@@ -93,8 +93,8 @@ Create `.dispatcherbot.yml` in your repository:
 enabled: true
 role: commander
 targets:
-  - joeeddy/hummingbot-2.0
-  - joeeddy/analytics-bot
+  - your-org/your-target-repo
+  - your-org/your-analytics-repo
 events:
   - issues
   - issue_comment
@@ -127,7 +127,7 @@ npm run dashboard
 !link target:owner/repo
 
 # Example
-!link target:joeeddy/hummingbot-2.0
+!link target:your-org/your-target-repo
 ```
 
 #### Thread Management
@@ -153,22 +153,22 @@ npm run dashboard
 #### Deploy Strategy
 ```bash
 # Deploy a specific trading strategy (manual command)
-!deploy_strategy strategy:arbitrage target:joeeddy/trading-bot
+!deploy_strategy strategy:arbitrage target:your-org/your-trading-repo
 
 # Bot/automated command with token
-!deploy_strategy strategy:arbitrage target:joeeddy/trading-bot token:your_token
+!deploy_strategy strategy:arbitrage target:your-org/your-trading-repo token:your_token
 
 # With additional parameters
-!deploy_strategy strategy:market_making target:joeeddy/hummingbot-2.0 pair:BTC-USDT token:your_token
+!deploy_strategy strategy:market_making target:your-org/your-target-repo pair:BTC-USDT token:your_token
 ```
 
 #### Report Status
 ```bash
 # Request status report from target repositories (manual)
-!report_status target:joeeddy/analytics-bot
+!report_status target:your-org/your-analytics-repo
 
 # Bot command with token
-!report_status target:joeeddy/analytics-bot token:your_token
+!report_status target:your-org/your-analytics-repo token:your_token
 ```
 
 ### Command Formats
@@ -238,10 +238,10 @@ brew install node
 # On Windows, download from https://nodejs.org/
 ```
 
-#### 2. Install @joeeddy/repo-relay
+#### 2. Install repo-relay
 Install the repo-relay package globally via npm:
 ```bash
-npm install -g @joeeddy/repo-relay
+npm install -g repo-relay
 ```
 
 #### 3. Set Up Git Authentication
@@ -345,7 +345,8 @@ For detailed configuration options and advanced features, see the full setup sec
 |----------|-------------|---------|
 | `GITHUB_TOKEN` | GitHub personal access token | Required |
 | `WEBHOOK_SECRET` | GitHub webhook secret | Required |
-| `ALLOWED_USERS` | Comma-separated list of users who can run commands | `joeeddy` |
+| `AUTHORIZED_USER` | Primary authorized user for repository ownership validation | `your-username` |
+| `ALLOWED_USERS` | Comma-separated list of users who can run commands | `your-username` |
 | `REPO_RELAY_TOKEN` | Shared token for bot/automated command authentication | Required for bot commands |
 | `SLACK_WEBHOOK` | Slack webhook URL for notifications | Optional |
 | `THREAD_LINKS_FILE` | File to store persistent thread links | `threadLinks.json` |
@@ -378,8 +379,8 @@ commands:                 # Allowed commands
 ## 🛡️ Security & Permissions
 
 ### Enhanced Authorization System
-- **User Authorization**: Only the authorized user (`joeeddy`) can execute commands
-- **Repository Restrictions**: Commands are only accepted from private repositories owned by `joeeddy`
+- **User Authorization**: Only the authorized user (configurable via `AUTHORIZED_USER` env var) can execute commands
+- **Repository Restrictions**: Commands are only accepted from private repositories owned by the authorized user
 - **Bot Command Security**: Bot/automated commands require a valid shared token
 - **Token Validation**: All bot commands must include `token:your_token` parameter
 
@@ -394,14 +395,14 @@ The system uses a shared token (`REPO_RELAY_TOKEN`) for bot/automated commands:
 
 ```bash
 # Manual command (no token required for authorized user)
-!link target:joeeddy/hummingbot-2.0
+!link target:your-org/your-target-repo
 
 # Bot command (token required)
-!deploy_strategy strategy:arbitrage target:joeeddy/trading-bot token:abc123
+!deploy_strategy strategy:arbitrage target:your-org/your-trading-repo token:abc123
 
 # Traditional format with token
 command: deploy_strategy
-target: joeeddy/trading-bot
+target: your-org/your-trading-repo
 strategy: arbitrage
 token: abc123
 ```
@@ -512,7 +513,7 @@ MIT License - see [LICENSE](LICENSE) file for details.
 - 📚 **Documentation**: Check this README and inline code comments
 - 🐛 **Issues**: Report bugs via GitHub Issues
 - 💬 **Discussions**: Use GitHub Discussions for questions
-- 📧 **Contact**: Reach out to @joeeddy for urgent matters
+- 📧 **Contact**: Use GitHub Issues or Discussions for support
 
 ---
 

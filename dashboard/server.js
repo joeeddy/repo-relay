@@ -364,7 +364,7 @@ function generateDashboardHTML() {
             </div>
             <div class="control-group">
                 <label>Filter by Repository</label>
-                <input type="text" id="repo-filter" placeholder="e.g., joeeddy/repo-relay">
+                <input type="text" id="repo-filter" placeholder="e.g., your-org/your-repo">
             </div>
             <div class="control-group">
                 <label>Limit</label>

@@ -1,8 +1,8 @@
 enabled: true
 role: commander
 targets:
-  - joeeddy/hummingbot-2.0
-  - joeeddy/analytics-bot
+  - your-org/your-repo-target
+  - your-org/your-analytics-repo
 events:
   - issues
   - issue_comment

@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/joeeddy/repo-relay.git"
+    "url": "https://github.com/your-username/repo-relay.git"
   },
   "keywords": [
     "github",
@@ -21,7 +21,7 @@
     "dashboard",
     "communication"
   ],
-  "author": "joeeddy",
+  "author": "Your Name",
   "license": "MIT",
   "dependencies": {
     "probot": "^12.0.0",
