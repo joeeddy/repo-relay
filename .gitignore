@@ -141,3 +141,4 @@ vite.config.ts.timestamp-*
 # RepoRelay specific files
 threadLinks.json
 README_old.md
+repo-relay.config.json

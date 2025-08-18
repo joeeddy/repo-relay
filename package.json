@@ -3,15 +3,18 @@
   "version": "2.0.0",
   "description": "GitHub Thread Relay & Dashboard - Cross-repository communication bot",
   "main": "index.js",
+  "bin": {
+    "repo-relay": "./bin/repo-relay.js"
+  },
   "scripts": {
     "start": "probot run ./index.js",
     "dev": "probot run ./index.js --auto-reload",
-    "test": "echo \"No tests specified\" && exit 0",
+    "test": "test/cli-test.sh",
     "dashboard": "node dashboard/server.js"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/your-username/repo-relay.git"
+    "url": "https://github.com/joeeddy/repo-relay.git"
   },
   "keywords": [
     "github",
@@ -21,7 +24,7 @@
     "dashboard",
     "communication"
   ],
-  "author": "Your Name",
+  "author": "Joe Eddy",
   "license": "MIT",
   "dependencies": {
     "probot": "^12.0.0",
