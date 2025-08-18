@@ -38,7 +38,7 @@ This app enables seamless cross-repository communication by linking GitHub issue
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/your-username/repo-relay.git
+git clone https://github.com/joeeddy/repo-relay.git
 cd repo-relay
 ```
 
@@ -56,14 +56,14 @@ Copy the example environment file and configure your settings:
 cp .env.example .env
 ```
 
-Edit `.env` with your configuration:
+Edit `.env` with your configuration. **Important**: For local testing, you can comment out `PRIVATE_KEY_PATH` if you don't have a GitHub App private key:
 
 ```env
-# GitHub App Configuration
+# GitHub App Configuration (required for production)
 GITHUB_TOKEN=your_github_personal_access_token_here
 WEBHOOK_SECRET=your_webhook_secret_here
 APP_ID=your_github_app_id_here
-PRIVATE_KEY_PATH=path_to_private_key.pem
+# PRIVATE_KEY_PATH=path_to_private_key.pem  # Comment out for local testing
 
 # Server Configuration
 PORT=3000
@@ -93,7 +93,7 @@ Create `.dispatcherbot.yml` in your repository:
 enabled: true
 role: commander
 targets:
-  - your-org/your-target-repo
+  - your-org/your-repo-target
   - your-org/your-analytics-repo
 events:
   - issues
@@ -239,10 +239,20 @@ brew install node
 ```
 
 #### 2. Install repo-relay
-Install the repo-relay package globally via npm:
+Clone and install the repo-relay package locally:
 ```bash
-npm install -g repo-relay
+# Clone the repository
+git clone https://github.com/joeeddy/repo-relay.git
+cd repo-relay
+
+# Install dependencies
+npm install
+
+# Install globally for command-line access (optional)
+npm link
 ```
+
+After installation, the `repo-relay` command will be available globally.
 
 #### 3. Set Up Git Authentication
 Ensure Git is configured with proper authentication for accessing your repositories:
@@ -328,10 +338,36 @@ Test the connection between your environments:
 
 ### Troubleshooting
 
+#### Common Issues
+
+##### "Private key does not exist" Error
+If you see an error about `PRIVATE_KEY_PATH` when starting the application:
+
+1. **For local testing**: Comment out the `PRIVATE_KEY_PATH` line in your `.env` file:
+   ```bash
+   # PRIVATE_KEY_PATH=path_to_private_key.pem
+   ```
+
+2. **For production**: You need to create a GitHub App and provide the private key path. See [GitHub's documentation](https://docs.github.com/en/developers/apps/building-github-apps/creating-a-github-app) for details.
+
+##### Module Not Found Errors
+Make sure you've run `npm install` to install all dependencies.
+
+##### Permission Errors
+- Verify your GitHub token has the necessary permissions (repo, issues, comments)
+- Ensure your webhook URL is accessible and the secret matches your configuration
+- Check that repository names in configuration files are correct
+
+##### Dashboard Not Loading
+- Verify `DASHBOARD_PORT` is not in use by another service
+- Check that `DASHBOARD_ENABLED=true` in your `.env` file
+- Try accessing directly: `http://localhost:3001`
+
 - **Authentication Issues**: Verify your GitHub token has the necessary permissions (repo, issues, comments)
 - **Webhook Issues**: Ensure your webhook URL is accessible and the secret matches your configuration
 - **Configuration Errors**: Check the `repo-relay.config.json` syntax and validate all required fields
 - **Network Issues**: Verify firewall settings allow incoming webhook requests
+- **Private Key Issues**: For local testing, comment out `PRIVATE_KEY_PATH` in `.env`. For production, set up a GitHub App with proper private key.
 
 For detailed configuration options and advanced features, see the full setup section below.
 
@@ -463,6 +499,12 @@ token: abc123
 npm test
 ```
 
+**Tests included**:
+- CLI command validation tests
+- Basic functionality verification
+
+To test the full application functionality, start the service with `npm start` and test the webhook endpoints manually.
+
 ### Development Mode
 ```bash
 # Auto-reload on changes
@@ -505,6 +547,8 @@ npm run dev
 ## 📝 License
 
 MIT License - see [LICENSE](LICENSE) file for details.
+
+**Note**: This project is not yet published to npm. For installation, clone the repository and use `npm link` for global access to the `repo-relay` command.
 
 ---
 
