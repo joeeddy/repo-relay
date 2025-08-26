@@ -1,0 +1,238 @@
+# Research Team Configuration Sample
+# Copy this to .dispatcherbot.yml in your research repositories
+
+enabled: true
+role: research_coordinator
+
+# Target repositories for research collaboration
+targets:
+  - research-org/experiments-repo    # Primary experiments repository
+  - research-org/results-repo       # Results and findings repository  
+  - research-org/literature-repo    # Literature and citations repository
+  - research-org/datasets-repo      # Shared datasets repository
+  - research-org/models-repo        # Model sharing repository
+  - partner-lab/joint-research      # External collaboration repository
+
+# GitHub events to monitor
+events:
+  - issues                          # Issue creation and updates
+  - issue_comment                   # Comments on issues
+  - pull_request                    # Pull request events
+  - pull_request_review            # Code review events
+
+# Enabled commands for research workflows
+commands:
+  # Core repository linking commands
+  - link                           # Link repositories
+  - unlink                         # Remove repository links
+  - status                         # Show linking status
+  - cleanup                        # Clean up old links
+  - help                           # Show help information
+  
+  # Experiment management commands
+  - share_experiment               # Share experiment details
+  - share_results                  # Share research results
+  - track_experiment               # Track experiment progress
+  - list_experiments               # List all experiments
+  - show_metrics                   # Display experiment metrics
+  
+  # Data and model sharing commands
+  - share_dataset                  # Share dataset information
+  - share_model                    # Share model details
+  - share_logs                     # Share experiment logs
+  
+  # Literature and citation commands
+  - cite_paper                     # Cite research papers
+  - search_papers                  # Search ArXiv papers
+  
+  # Collaboration and review commands
+  - peer_review                    # Peer review workflow
+  - research_proposal              # Share research proposals
+  
+  # Tool integration commands
+  - tensorboard_link               # Share TensorBoard visualizations
+  - wandb_link                     # Share Weights & Biases runs
+  - mlflow_link                    # Share MLflow experiments
+
+# Research-specific settings
+research_settings:
+  # Experiment tracking
+  auto_track_experiments: true     # Automatically track experiments from commits
+  experiment_retention_days: 365   # Keep experiment data for 1 year
+  default_experiment_status: "running"
+  
+  # Paper and citation management
+  enable_paper_search: true        # Enable ArXiv paper search
+  default_citation_format: "apa"   # Citation format (apa, mla, ieee)
+  auto_suggest_citations: true     # Suggest relevant papers
+  
+  # Collaboration settings
+  enable_peer_review: true         # Enable peer review workflows
+  default_review_deadline_days: 14 # Default deadline for reviews
+  require_review_approval: false   # Require approval for certain actions
+  
+  # Tool integrations
+  tensorboard_auto_detect: true    # Auto-detect TensorBoard URLs in logs
+  wandb_project_mapping: true      # Map repositories to W&B projects
+  mlflow_experiment_linking: true  # Link MLflow experiments to issues
+  
+  # Notification preferences
+  notify_on_new_experiments: true  # Notify team of new experiments
+  notify_on_results: true          # Notify team of new results
+  notify_on_citations: false       # Don't notify for every citation
+  notify_on_peer_review: true      # Notify for peer review requests
+  
+  # Data management
+  auto_backup_experiment_data: true # Backup experiment metadata
+  experiment_data_format: "json"   # Format for experiment data storage
+  
+  # Security and access
+  require_verification: true       # Require verification for sensitive commands
+  allowed_domains:                 # Allowed domains for external links
+    - "arxiv.org"
+    - "tensorflow.org" 
+    - "wandb.ai"
+    - "mlflow.org"
+    - "tensorboard.dev"
+  
+  # Custom patterns for auto-tracking
+  track_on_patterns:
+    - "experiment:"                # Track commits with "experiment:" prefix
+    - "train:"                     # Track training runs
+    - "eval:"                      # Track evaluation runs
+    - "model:"                     # Track model-related commits
+    - "data:"                      # Track data-related commits
+  
+  # Research domains and tags
+  research_domains:
+    - "natural_language_processing"
+    - "computer_vision" 
+    - "reinforcement_learning"
+    - "machine_learning"
+    - "deep_learning"
+    - "artificial_general_intelligence"
+  
+  # Default tags for experiments
+  default_tags:
+    - "agi_research"
+    - "collaborative"
+    - "open_science"
+
+# Team member roles and permissions
+team_roles:
+  principal_investigators:
+    - "pi_username"
+    permissions:
+      - "all_commands"
+      - "admin_functions"
+      - "approve_proposals"
+  
+  senior_researchers:
+    - "senior_researcher1"
+    - "senior_researcher2" 
+    permissions:
+      - "research_commands"
+      - "peer_review"
+      - "experiment_management"
+  
+  researchers:
+    - "researcher1"
+    - "researcher2"
+    - "researcher3"
+    permissions:
+      - "basic_research_commands"
+      - "share_experiments"
+      - "cite_papers"
+  
+  students:
+    - "phd_student1"
+    - "masters_student1"
+    permissions:
+      - "view_experiments"
+      - "cite_papers"
+      - "request_peer_review"
+
+# Integration configurations
+integrations:
+  arxiv:
+    enabled: true
+    rate_limit: 100              # Requests per hour
+    cache_duration: 3600         # Cache results for 1 hour
+  
+  tensorboard:
+    default_port: 6006
+    auto_detect_logs: true
+    supported_formats: ["tfevents", "logs"]
+  
+  wandb:
+    auto_login: false
+    project_prefix: "repo_relay_"
+    default_entity: "research_team"
+  
+  mlflow:
+    tracking_uri: "http://mlflow.research.org"
+    experiment_prefix: "repo_relay_"
+    auto_log_metrics: true
+
+# Automation rules
+automation:
+  # Auto-link related experiments
+  auto_link_experiments:
+    enabled: true
+    similarity_threshold: 0.8
+  
+  # Auto-suggest citations
+  auto_suggest_papers:
+    enabled: true
+    max_suggestions: 3
+    relevance_threshold: 0.7
+  
+  # Auto-format results
+  auto_format_results:
+    enabled: true
+    include_metadata: true
+    standardize_metrics: true
+  
+  # Periodic cleanup
+  cleanup_schedule:
+    old_experiments: "monthly"
+    old_citations: "quarterly" 
+    old_logs: "weekly"
+
+# Dashboard customization
+dashboard:
+  research_widgets:
+    - "experiment_timeline"
+    - "citation_network"
+    - "collaboration_map"
+    - "research_metrics"
+    - "recent_results"
+  
+  default_view: "research_overview"
+  refresh_interval: 30            # seconds
+  
+  charts:
+    experiment_timeline:
+      enabled: true
+      time_range: "3_months"
+    
+    citation_network:
+      enabled: true
+      max_nodes: 50
+    
+    collaboration_metrics:
+      enabled: true
+      include_external: true
+
+# Backup and archival
+backup:
+  experiment_data: true
+  citation_library: true
+  collaboration_history: true
+  backup_frequency: "daily"
+  retention_period: "2_years"
+  
+archive:
+  completed_experiments: true
+  old_collaborations: true
+  archive_after_days: 365
