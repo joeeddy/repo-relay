@@ -22,5 +22,13 @@
     "status": "running",
     "id": "exp_1756221623484",
     "timestamp": 1756221623484
+  },
+  "exp_1756245573561": {
+    "name": "Test Experiment",
+    "description": "Testing experiment tracking",
+    "type": "test",
+    "status": "running",
+    "id": "exp_1756245573561",
+    "timestamp": 1756245573561
   }
 }
