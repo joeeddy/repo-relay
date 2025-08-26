@@ -1,6 +1,33 @@
-# 🧵 GitHub Thread Relay & Dashboard
+# 🧵 GitHub Thread Relay & Research Collaboration Platform
 
-This app enables seamless cross-repository communication by linking GitHub issues and comments between threads. It provides advanced features including persistent thread tracking, spam prevention, comprehensive error handling, and an interactive dashboard.
+This app enables seamless cross-repository communication by linking GitHub issues and comments between threads. **Now enhanced with powerful features specifically designed for AGI researchers and research teams.** It provides advanced features including persistent thread tracking, spam prevention, comprehensive error handling, an interactive dashboard, and comprehensive research workflow support.
+
+## 🧠 **NEW: Research Features for AGI Teams**
+
+### 🚀 Research-Specific Commands
+- **🧪 Experiment Management**: Track, share, and analyze experiments across repositories
+- **📊 Results Sharing**: Share research findings with structured metrics and visualizations  
+- **📄 Literature Integration**: Cite papers, search ArXiv, and manage research citations
+- **🤝 Peer Review Workflows**: Structured peer review and research proposal systems
+- **🔗 Tool Integrations**: Direct integration with TensorBoard, Weights & Biases, MLflow
+- **📂 Data & Model Sharing**: Structured sharing of datasets and trained models
+
+### 🎯 Quick Research Examples
+```bash
+# Share your latest experiment with another research team
+!share_experiment name:"GPT Fine-tuning" target:research-team/experiments-repo
+
+# Cite a foundational paper
+!cite_paper arxiv_id:1706.03762 relevance:"Attention mechanism basis for our approach"
+
+# Share experimental results with metrics
+!share_results findings:"95% accuracy achieved" metrics:'{"accuracy":0.95,"f1":0.94}'
+
+# Request peer review from a colleague
+!peer_review type:request reviewer:colleague scope:"Model architecture review"
+```
+
+📚 **[Complete Research Guide →](RESEARCH_GUIDE.md)**
 
 ## 🚀 Features
 

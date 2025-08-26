@@ -105,7 +105,7 @@ function parseCommand(payload) {
  * Check if command doesn't require a target
  */
 function isNonTargetCommand(commandType) {
-  const nonTargetCommands = ['status', 'help', 'list', 'cleanup', 'unlink'];
+  const nonTargetCommands = ['status', 'help', 'list', 'cleanup', 'unlink', 'search_papers', 'list_experiments', 'show_metrics'];
   return nonTargetCommands.includes(commandType);
 }
 
@@ -115,7 +115,14 @@ function isNonTargetCommand(commandType) {
 function validateCommand(command) {
   if (!command) return { valid: false, error: 'No command provided' };
   
-  const validCommands = ['link', 'unlink', 'status', 'help', 'list', 'cleanup', 'deploy_strategy', 'report_status'];
+  const validCommands = [
+    // Core commands
+    'link', 'unlink', 'status', 'help', 'list', 'cleanup', 'deploy_strategy', 'report_status',
+    // Research-specific commands
+    'share_experiment', 'share_results', 'share_dataset', 'share_model', 'cite_paper',
+    'search_papers', 'track_experiment', 'list_experiments', 'show_metrics', 'peer_review',
+    'research_proposal', 'share_logs', 'tensorboard_link', 'wandb_link', 'mlflow_link'
+  ];
   
   if (!validCommands.includes(command.type)) {
     return { 
@@ -142,6 +149,43 @@ function validateCommand(command) {
     case 'deploy_strategy':
       if (!command.params.strategy) {
         return { valid: false, error: 'deploy_strategy requires strategy parameter' };
+      }
+      break;
+      
+    // Research command validations
+    case 'share_experiment':
+      if (!command.params.experiment_id && !command.params.name) {
+        return { valid: false, error: 'share_experiment requires experiment_id or name parameter' };
+      }
+      break;
+      
+    case 'share_dataset':
+      if (!command.params.dataset && !command.params.name) {
+        return { valid: false, error: 'share_dataset requires dataset or name parameter' };
+      }
+      break;
+      
+    case 'share_model':
+      if (!command.params.model && !command.params.name) {
+        return { valid: false, error: 'share_model requires model or name parameter' };
+      }
+      break;
+      
+    case 'cite_paper':
+      if (!command.params.arxiv_id && !command.params.doi && !command.params.title) {
+        return { valid: false, error: 'cite_paper requires arxiv_id, doi, or title parameter' };
+      }
+      break;
+      
+    case 'track_experiment':
+      if (!command.params.experiment_id && !command.params.name) {
+        return { valid: false, error: 'track_experiment requires experiment_id or name parameter' };
+      }
+      break;
+      
+    case 'peer_review':
+      if (!command.params.type || !['request', 'submit', 'complete'].includes(command.params.type)) {
+        return { valid: false, error: 'peer_review requires type parameter (request, submit, or complete)' };
       }
       break;
   }
