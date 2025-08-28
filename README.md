@@ -5,7 +5,7 @@ This app enables seamless cross-repository communication by linking GitHub issue
 
 I am developing repo-relay as a **solo developer** and am actively looking for collaborators, contributors, or research partners interested in AGI, agentic AI, and distributed research tooling.
 
-If you work on AGI, multi-agent systems, or advanced AI research—and want to help shape and use open-source infrastructure for cross-repo collaboration—please reach out or open an issue/discussion.  
+If you work on AGI, multi-agent systems, or advanced AI research—and want to help shape and use open-source infrastructure for cross-repo collaboration—please reach out or open an issue/discussion.  Hippocrates-Edu@proton.me
 
 ## 🧠 **NEW: Research Features for AGI Teams**
 
