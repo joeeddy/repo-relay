@@ -7,6 +7,11 @@ I am developing repo-relay as a **solo developer** and am actively looking for c
 
 If you work on AGI, multi-agent systems, or advanced AI research—and want to help shape and use open-source infrastructure for cross-repo collaboration—please reach out or open an issue/discussion.  Hippocrates-Edu@proton.me
 
+## Example: Fractal Emergent AI Agent
+
+Looking for a practical implementation?  
+Check out [**teacher1**](https://github.com/joeeddy/teacher1) — a compressed demonstration of a fractal, emergent AI architecture designed for research and multi-agent integration using repo-relay.
+
 ## 🧠 **NEW: Research Features for AGI Teams**
 
 ### 🚀 Research-Specific Commands
