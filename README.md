@@ -1,6 +1,11 @@
 # 🧵 GitHub Thread Relay & Research Collaboration Platform
 
 This app enables seamless cross-repository communication by linking GitHub issues and comments between threads. **Now enhanced with powerful features specifically designed for AGI researchers and research teams.** It provides advanced features including persistent thread tracking, spam prevention, comprehensive error handling, an interactive dashboard, and comprehensive research workflow support.
+## 🤝 Seeking AGI Collaborators & Co-Developers
+
+I am developing repo-relay as a **solo developer** and am actively looking for collaborators, contributors, or research partners interested in AGI, agentic AI, and distributed research tooling.
+
+If you work on AGI, multi-agent systems, or advanced AI research—and want to help shape and use open-source infrastructure for cross-repo collaboration—please reach out or open an issue/discussion.  
 
 ## 🧠 **NEW: Research Features for AGI Teams**
 
